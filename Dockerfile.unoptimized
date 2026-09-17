@@ -1,12 +1,16 @@
+# Base image with a lot of unnecessary packages and files
 FROM node
-
 WORKDIR /app
 
+# Copy all files to the container (A single modification in any file will trigger a rebuild of the entire image)
 COPY . .
 
+# Install dependencies and build the application
 RUN npm ci
 RUN npm run build
 
+# Expose the port to access the app
 EXPOSE 3000
 
+# Command that runs the application when the container starts
 CMD ["npm", "start"]

@@ -1,22 +1,35 @@
+# Base image using tag and digest to ensure reproducibility
+# Builder stage to install dependencies and build the application
 FROM node:current-alpine3.24@sha256:ef24c5053d50fdc3e4e56eb4e7ddb7861874ab0fdc797046ba897581deb8e868 AS builder
-
 WORKDIR /app
 
+# Copy only the dependency files to use Docker cache
 COPY package*.json ./
+# Install dependencies (clean install)
 RUN npm ci
 
+# Copy the rest of the application code
 COPY . .
 
+# Build the typeScript application
 RUN npm run build
 
+# Create a new stage for the final image to reduce size
+# The stage contains only the necessary files to run the application
 FROM node:current-alpine3.24@sha256:ef24c5053d50fdc3e4e56eb4e7ddb7861874ab0fdc797046ba897581deb8e868 AS runner
 WORKDIR /app
 
+# Copy only the dependency files needed for the runtime
 COPY package*.json ./
+
+# Install only production dependencies to reduce image size
 RUN npm ci --omit=dev
 
+# Copy the built application from the builder stage
 COPY --from=builder /app/dist ./dist
 
+# Expose the port to access the app
 EXPOSE 3000
 
+# Command that runs the application when the container starts
 CMD ["npm", "start"]
