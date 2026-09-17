@@ -8,6 +8,7 @@ building-containers-demo/
 ├── src/            # Source code for the application
 │   └── index.ts
 ├── .dockerignore   # Files and directories to ignore when building the Docker image
+├── .gitattributes  # Git attributes file
 ├── .gitignore 
 ├── Dockerfile.optimized    # Optimized Dockerfile for building the application
 ├── Dockerfile.unoptimized  # Unoptimized Dockerfile for building the application
