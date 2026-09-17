@@ -18,15 +18,56 @@ building-containers-demo/
 └── tsconfig.json       # TypeScript configuration file
 ```
 
-# Setup
+## Prerequisites
+- Docker (Docker Desktop on Mac/Windows) running
+- A bash shell (Terminal on Mac/Linux, WSL on Windows)
+- Node.js 18+ (For running the project locally without Docker)
+
+## Setup
 
 1. Clone the repository:
 ```bash
 git clone https://github.com/ffavre13/building-containers-demo.git && cd building-containers-demo
 ```
 
-3. Run the demo using 'run.sh' script:
+2. Run the demo using 'run.sh' script:
 ```bash
-# On windows, use WSL to run the script
+# On windows, run the script inside WSL
 chmod +x run.sh && ./run.sh
+```
+
+(optional) Build and run the project locally without docker:
+```bash
+npm ci
+npm run build
+npm start
+```
+
+(optional) Run the project in a docker container:
+```bash
+# Build the optimized image
+docker build -f Dockerfile.optimized -t fast-app:latest .
+# Run the optimized image
+docker run -p 3000:3000 fast-app:latest
+
+# Build the unoptimized image
+docker build -f Dockerfile.unoptimized -t slow-app:latest .
+# Run the unoptimized image
+docker run -p 3000:3000 slow-app:latest
+```
+
+## Results
+
+This is an example of the results you can expect when running the demo:
+
+```text
+Results:
+===============================
+Unoptimized image: 
+Rebuild time: 11 seconds
+image size: 1.86GB
+
+Optimized image: 
+Rebuild time: 4 seconds
+image size: 262MB
 ```

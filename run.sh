@@ -14,7 +14,7 @@ echo ""
 echo "Modify the source code to trigger rebuild"
 echo "==============================="
 
-echo "" >> src/index.ts
+echo "// Blank line added" >> src/index.ts
 echo "File index.ts has been modified"
 echo ""
 
